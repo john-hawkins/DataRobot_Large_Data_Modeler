@@ -1,0 +1,65 @@
+{% include "header.html" %}
+
+<div class="chooser text-center">
+  <h2>{{ project_type }} : {{ project_name }}</h2>
+  <div>Dataset: {{gigs}} Gb, {{cols}} Columns, {{rows}} Rows
+</div>
+
+<div class="controlpanel text-center">
+    <form method="post" action="/generate">
+     <input type="hidden" name="project_name" value="{{ project_name }}">
+     <div class="input-group" style="margin: 0 auto; width: 780px;">
+     <table>
+      <tr><th colspan=2>Configuration</th> <th></th></tr>
+      <tr>
+          <td style="white-space: nowrap">Choose Target</td>
+          <td>
+           <select name="target" class="form-control">
+	   <option value=""></option>
+           {% for feature in features %}
+              <option value="{{ feature }}">{{ feature }}</option>
+           {% endfor %}
+           </select>
+          </td>
+          <td></td>
+      </tr>
+      <tr>
+          <td style="white-space: nowrap">Select Datetime Column</td>
+          <td>
+           <select name="datetime" class="form-control">
+	   <option value=""></option>
+           {% for fe in features %}
+              <option value="{{ fe }}">{{ fe }}</option>
+           {% endfor %}
+           </select>
+          </td>
+          <td></td>
+      </tr>
+      <tr>
+          <td style="white-space: nowrap">Select Series Column</td>
+          <td>
+           <select name="series" class="form-control">
+	   <option value=""></option>
+           {% for fe in features %}
+              <option value="{{ fe }}">{{ fe }}</option>
+           {% endfor %}
+           </select>
+          </td>
+          <td><button id="generate" type="submit" class="btn btn-danger">Generate</button></td>
+      </tr>
+     </table>
+    </div>
+  </form>
+ <div id="placeholder" style="margin: 10 auto; width: 680px;"></div>
+</div>
+
+<script>
+  bootstrap_alert = function(message) {
+    $('#placeholder').html(
+      '<div class="alert alert-warning"><a class="close" data-dismiss="alert">×</a><span>'+message+'</span></div>');
+   }
+   $('#generate').on('click', function() {bootstrap_alert('Please be patient, this can take 5-10 minutes to calculate.');
+});
+</script>
+
+{% include "footer.html" %}

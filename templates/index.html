@@ -1,0 +1,39 @@
+{% include "header.html" %}
+
+<div class="chooser text-center">
+
+  <h3>New Project</h3> 
+
+  <form method="post" action="/configure"  enctype="multipart/form-data">
+     <div class="input-group" style="margin: 0 auto; width: 780px;">
+     <table>
+      <tr>
+          <td style="white-space: nowrap">Project Name</td>
+          <td><input type="text" name="project_name"></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td style="white-space: nowrap">Project Type</td>
+          <td>
+           <select name="project_type" class="form-control">
+           <option value="timeseries">Time Series</option>
+           </select>
+          </td>
+          <td></td>
+      </tr>
+      <tr>
+          <td style="white-space: nowrap">Upload a Dataset</td>
+          <td><input type="file" name="file" class="form-control"></td>
+          <td><button type="submit" class="btn btn-danger">Continue</button></td>
+      </tr>
+     </table>
+    </div>
+  </form>
+
+</div>
+
+<div class="controlpanel text-center">
+     <h4>Once you choose a project you will be prompted to make additional choices.</h4>
+</div>
+
+{% include "footer.html" %}
