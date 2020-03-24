@@ -1,0 +1,17 @@
+
+<div class="canvas text-center">
+   <div class="input-group" style="margin: 0 auto; width: 800px;">
+     <table>
+      <tr><th>Experiment</th><th>Projects</th><th>Mean MAE</th><th>Max MAE</th></tr>
+       {% for exp in experiments %}
+        <tr>
+          <td>{{ exp['experiment_name'] }}</td>
+          <td>{{ exp['project_num'] }}</td>
+          <td>{{ exp['mean_mae'] }}</td>
+          <td>{{ exp['max_mae'] }}</td>
+        </tr>
+       {% endfor %}
+     </table>
+   </div>
+</div>
+

@@ -60,6 +60,14 @@ def generate():
 def about():
         return render_template("about.html")
 
+# ###################################################################################
+# Projects Page -
+@app.route('/projects')
+def projects():
+    # RENDER THE HOME PAGE
+    projects = []
+    return render_template("projects.html", projects=projects)
+
 
 # ###################################################################################
 # With debug=True, Flask server will auto-reload 

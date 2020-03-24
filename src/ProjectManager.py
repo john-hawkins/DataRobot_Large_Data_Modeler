@@ -1,12 +1,11 @@
 from werkzeug.utils import secure_filename
-from pathlib import Path
 import pandas as pd
 import chardet
 import yaml
 import os
 import re
 
-# Import the file:  ProcessLargeData.py
+# Import the file:  ../src/ProcessLargeData.py
 import src.ProcessLargeData as pld
 
 PROJECTS_FOLDER = './projects/'
@@ -18,8 +17,7 @@ def initiate_project(project_name, project_type, file):
 	project_folder = PROJECTS_FOLDER + clean_string(project_name)
 	exists = True
 	while (exists):
-		my_file = Path(project_folder)
-		if my_file.is_file():
+		if os.path.exists(project_folder):
 			print("Project directory exists, modifying")
 			project_folder = project_folder + "X"
 		else:
@@ -28,14 +26,20 @@ def initiate_project(project_name, project_type, file):
 	try:
 		os.mkdir(project_folder)
 	except OSError:
-		return  0, ("Creation of the directory %s failed" % project_folder),project_folder
+		return  0, ("Creation of the directory %s failed" % project_folder), project_folder
 
 	data_path = project_folder + "/data"
 	try:
 		os.mkdir(data_path)
 	except OSError:
-		return  0, ("Creation of the directory %s failed" % data_path),project_folder
- 
+		return  0, ("Creation of the directory %s failed" % data_path), project_folder
+
+	exp_path = project_folder + "/exp"
+	try:
+		os.mkdir(exp_path)
+	except OSError:
+		return  0, ("Creation of the directory %s failed" % exp_path), project_folder
+
 	rawdata_file_path = data_path + "/" + file.filename
 
 	if file and allowed_file(file.filename):
@@ -55,6 +59,43 @@ def initiate_project(project_name, project_type, file):
 		documents = yaml.dump(dict_file, file, default_flow_style=False)
 	print(config)
 	return 1, "Success", project_folder
+
+# ###################################################################################
+def initiate_experiment(project_folder, experiment_name, experiment_type, file):
+        exp_folder = project_folder + "/exp/" + clean_string(experiment_name)
+        exists = True
+        while (exists):
+                if os.path.exists(exp_folder):
+                        print("Experiment directory exists, modifying")
+                        exp_folder = exp_folder + "_X"
+                else:
+                        exists = False
+
+        try:
+                os.mkdir(exp_folder)
+        except OSError:
+                return  0, ("Creation of the directory %s failed" % project_folder), project_folder
+
+        data_path = exp_folder + "/data"
+        try:
+                os.mkdir(data_path)
+        except OSError:
+                return  0, ("Creation of the directory %s failed" % data_path), project_folder
+        
+        rawdata_file_path = data_path + "/data.csv"
+
+        file.to_csv(rawdata_file_path, index=False, header=True)
+
+        dict_file = {'experiment_name':experiment_name,
+                'experiment_type':experiment_type,
+                'raw_data_path':rawdata_file_path}
+        config = project_folder + '/config.yaml' 
+        with open(config, 'w') as file:
+                documents = yaml.dump(dict_file, file, default_flow_style=False)
+        print(config)
+        return 1, "Success", experiment_folder
+
+
 
 
 # ###################################################################################
@@ -80,6 +121,7 @@ def get_column_names(project_folder):
 		first_line = f.readline()
 		return first_line.split(",")
 
+# ###################################################################################
 def get_dataset_stats(project_folder):
         config = project_folder + '/config.yaml'
         data_path = ''

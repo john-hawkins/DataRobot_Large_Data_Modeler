@@ -1,0 +1,16 @@
+
+<div class="canvas text-center">
+   <div class="input-group" style="margin: 0 auto; width: 800px;">
+     <table>
+      <tr><th>Project</th><th>Type</th><th>Dataset Size</th></tr>
+       {% for proj in projects %}
+        <tr>
+          <td>{{ proj['project_name'] }}</td>
+          <td>{{ proj['project_type'] }}</td>
+          <td>{{ proj['dataset_size'] }}</td>
+        </tr>
+       {% endfor %}
+     </table>
+   </div>
+</div>
+
