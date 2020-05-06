@@ -12,4 +12,6 @@ Status: Not Functional
 Current Work: Building Timeseries Workflow
 ```
 
+Plan: Upload data into a flask app and then select the planned modelling approach.
+
 
